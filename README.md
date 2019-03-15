@@ -6,6 +6,19 @@ Instructions found here:
 https://sysdigdocs.atlassian.net/wiki/spaces/Platform/pages/192348345/Agent+Install+Kubernetes+GKE+OpenShift+IBM
 
 The Sysdig backend has a PromQL service endpoint exposed.
+
+# Use Cases
+This will allow users to run PromQL queries on Prometheus metrics. For instance if you want to see Cluster CPU Usage, you can run a PromQL query as follows:
+```
+sum(kube_pod_container_resource_requests_cpu_cores{node=~"$node"}) / sum(kube_node_status_allocatable_cpu_cores{node=~"$node"})
+```
+Or Number of Nodes in a cluster:
+```
+sum(kube_node_info{node=~"$node"})
+```
+
+This allows for users of Sysdig to perform math on metrics using PromQL
+
 A few caveats:
 1. Works for SaaS backend only
 2. Can use only Grafana and can only run queries on Prometheus metrics (for now)
@@ -50,7 +63,6 @@ Then run the following command to add a new datasource to Grafana:
 ```
 curl -u <grafana admin user>:<grafana admin password> -H "Content-Type: application/json" http://<grafana ip address>:3000/api/datasources -XPOST -d @<filename>.json
 ```
-Now you can log into the grafana instance and import the dashboards.
 
 For the node-exporter dashboard the following exporter needs to be installed:
 
@@ -60,5 +72,12 @@ For kubernetes cluster dashboard the following exporters need to be installed:
 
 Node Exporter 0.17.0 – https://github.com/prometheus/node_exporter
 Kube State Metrics Exporter 1.5.0 – https://github.com/kubernetes/kube-state-metrics
+
+
+# Add a dashboard
+In order to add a dahsboard download the json file and POSTit using the following command:
+```
+curl -X POST -H "Authorization: Bearer <Sysdig Monitor API token>" -H "Content-Type: application/json" -d @<dashboard_file>.json
+```
 
 If you run into any issues please post an issue in this repo
