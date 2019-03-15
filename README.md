@@ -12,7 +12,8 @@ A few caveats:
 3. The service is in Alpha state.
 4. Currently we do not support histograms using PromQL + Grafana and the sysdig backend
 5. We do not support Prometheus scrape configs (so you will be missing metrics like job, instance, up)
-6. The label names might be a bit different as we do not support relabeling rules or recording rules
+6. The label names might be a bit different as we do not support relabeling rules or recording rules.
+7. You will have to increase the agent metric count limit to 3000
 
 That said we are continually improving the backend PromQL service endpoint.
 
@@ -59,3 +60,5 @@ For kubernetes cluster dashboard the following exporters need to be installed:
 
 Node Exporter 0.17.0 – https://github.com/prometheus/node_exporter
 Kube State Metrics Exporter 1.5.0 – https://github.com/kubernetes/kube-state-metrics
+
+If you run into any issues please post an issue in this repo
